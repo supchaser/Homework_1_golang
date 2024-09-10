@@ -1,10 +1,9 @@
 package uniqFunc
 
-// import (
-// 	"fmt"
-// 	uniqOptions "uniq/uniqOptions"
-// )
+import (
+	"../uniqOptions" // модуль со структурой UniqOptions
+)
 
-func uniqFunc(input []string) {
-
+func uniqFunc(input []string, options uniqOptions.UniqOptions) {
+	
 }
