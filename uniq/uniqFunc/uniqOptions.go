@@ -37,7 +37,6 @@ func GetFlags() UniqOptions {
 }
 
 // валидация флагов
-// todo: добавить еще что то 
 func Validation(options UniqOptions) error {
 	if (options.Count && options.Repeated) || (options.Count && options.Unique) || (options.Unique && options.Repeated){
 		return errors.New("флаги -c, -d, -u не могут использоваться одновременно")
