@@ -25,7 +25,7 @@ func Tokenize(input string) []Token {
 			}
 
 			if r == '-' && (len(tokens) == 0 || tokens[len(tokens)-1].Type == "operator" || tokens[len(tokens)-1].Type == "openingBracket") {
-				tokens = append(tokens, Token{Type: "operator", Value: "u-"}) // unop "-" for unary minus
+				tokens = append(tokens, Token{Type: "operator", Value: "u-"})
 			} else {
 				tokens = append(tokens, Token{Type: "operator", Value: string(r)})
 			}
@@ -70,7 +70,6 @@ func Tokenize(input string) []Token {
 		}
 	}
 
-	// Если в конце строки остался токен
 	if current != "" {
 		tokens = append(tokens, Token{Type: "number", Value: current})
 	}
@@ -85,7 +84,7 @@ func getPriority(token Token) int {
 	case "*", "/":
 		return 2
 	case "u-":
-		return 3 // наивысший приоритет для унарного минуса
+		return 3
 	default:
 		return 0
 	}

@@ -125,7 +125,7 @@ func ShuntingYardAlg(tokens []Token) (float64, error) {
 		case "number":
 			stack.Push(token)
 		case "operator":
-			if token.Value == "u-" { // унарный минус
+			if token.Value == "u-" { 
 				tmp, _ := stack.Pop()
 				a, _ := strconv.ParseFloat(tmp.Value, 64)
 				result = -a
