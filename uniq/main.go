@@ -8,18 +8,11 @@ import (
 	"uniq/uniqFunc"
 )
 
-func ErrorOut(err_ error) error {
-	if err_ != nil {
-		fmt.Println("Ошибка", err_)
-		return err_
-	}
-	return nil
-}
-
 func OpenFile(in string) (*os.File, error) {
 	file, err := os.Open(in)
 	if err != nil {
-		return nil, ErrorOut(err)
+		fmt.Println("Ошибка открытия файла", err)
+		return file, err
 	}
 	return file, nil
 }
@@ -36,6 +29,7 @@ func main() {
 	var reader io.Reader
 	var output io.Writer
 
+	// определяем входной и выходной потоки в зависимости от длины input'а
 	switch len(options.Input) {
 		case 0:
 			reader = os.Stdin
@@ -43,14 +37,23 @@ func main() {
 		case 1:
 			var err error
 			reader, err = OpenFile(options.Input[0])
-			ErrorOut(err)
+			if err != nil {
+				fmt.Println("ошибка открытия файла", err)
+				return
+			}
 			output = os.Stdout
 		case 2:
 			var err error
 			reader, err = OpenFile(options.Input[0])
-			ErrorOut(err)
+			if err != nil {
+				fmt.Println("ошибка открытия файла", err)
+				return
+			}
 			resultFile, err := os.Create(options.Input[1])
-			ErrorOut(err)
+			if err != nil {
+				fmt.Println("ошибка создания файла", err)
+				return
+			}
 			defer resultFile.Close()
 			output = resultFile
 		}
@@ -67,7 +70,10 @@ func main() {
 	for i := 0; i < len(result); i++ {
 		line := result[i]
 		_, err := writer.WriteString(line + "\n")
-		ErrorOut(err)
+		if err != nil {
+			fmt.Println("ошибка записи строки", err)
+			return
+		}
 	}
 	writer.Flush()
 }

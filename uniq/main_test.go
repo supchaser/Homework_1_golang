@@ -19,13 +19,6 @@ func ReplaceFileDescriptor(fd int, file *os.File) *os.File {
 	return oldFile
 }
 
-func TestErrorOut(t *testing.T) {
-	err := ErrorOut(nil)
-	if err != nil {
-		t.Errorf("ожидается nil, получили %v", err)
-	}
-}
-
 func TestOpenFile(t *testing.T) {
 	_, err := OpenFile("non_existent_file.txt")
 	if err == nil {
