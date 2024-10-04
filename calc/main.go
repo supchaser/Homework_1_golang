@@ -13,7 +13,11 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		tokens := shuntingYardAlg.Tokenize(scanner.Text())
-		fmt.Println(shuntingYardAlg.ShuntingYardAlg(tokens))
+		result, err := shuntingYardAlg.ShuntingYardAlg(tokens)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(result)
 	}
 
 	if err := scanner.Err(); err != nil {

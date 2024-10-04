@@ -4,6 +4,7 @@ import (
 	"unicode"
 )
 
+// Разбиение на токены
 func Tokenize(input string) []Token {
 	tokens := []Token{}
 	var current string
@@ -35,10 +36,11 @@ func Tokenize(input string) []Token {
 				current = ""
 				havePoint = false
 			}
-			// Add implicit multiplication
+
 			if len(tokens) > 0 && (tokens[len(tokens)-1].Type == "number" || tokens[len(tokens)-1].Type == "closingBracket") {
 				tokens = append(tokens, Token{Type: "operator", Value: "*"})
 			}
+
 			tokens = append(tokens, Token{Type: "openingBracket", Value: string(r)})
 		case r == ')':
 			if current != "" {
@@ -46,6 +48,7 @@ func Tokenize(input string) []Token {
 				current = ""
 				havePoint = false
 			}
+
 			tokens = append(tokens, Token{Type: "closingBracket", Value: string(r)})
 		case r == ',':
 			if current != "" {
@@ -53,14 +56,17 @@ func Tokenize(input string) []Token {
 				current = ""
 				havePoint = false
 			}
+
 			tokens = append(tokens, Token{Type: "separator", Value: string(r)})
 		case r == '.':
 			if havePoint {
 				continue
 			}
+			
 			if current == "" {
 				current = "0"
 			}
+
 			current += string(r)
 			havePoint = true
 		case unicode.IsDigit(r):

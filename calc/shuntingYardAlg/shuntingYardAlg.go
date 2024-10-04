@@ -70,10 +70,7 @@ func ShuntingYardAlg(tokens []Token) (float64, error) {
 	stack := Stack{}
 	queue := Queue{}
 
-	for _, t := range tokens {
-		fmt.Println(t)
-	}
-
+	// Алгоритм сортировочной станции
 	for _, t := range tokens {
 		switch t.Type {
 		case "number":
@@ -114,11 +111,7 @@ func ShuntingYardAlg(tokens []Token) (float64, error) {
 		queue.Enqueue(token)
 	}
 
-	fmt.Println("очередь")
-	for _, q := range queue.tokens {
-		fmt.Println(q)
-	}
-
+	// Алгоритм стековой машины
 	for !queue.IsEmpty() {
 		token, _ := queue.Dequeue()
 		switch token.Type {
@@ -127,15 +120,23 @@ func ShuntingYardAlg(tokens []Token) (float64, error) {
 		case "operator":
 			if token.Value == "u-" { 
 				tmp, _ := stack.Pop()
-				a, _ := strconv.ParseFloat(tmp.Value, 64)
+				a, err := strconv.ParseFloat(tmp.Value, 64)
+				if err != nil {
+					fmt.Println("ошибка при переводе в float токена a в случае унарного минуса: ", err)
+				}
 				result = -a
 				stack.Push(Token{Type: "number", Value: strconv.FormatFloat(result, 'f', -1, 64)})
 			} else {
 				tmp1, _ := stack.Pop()
 				tmp2, _ := stack.Pop()
-				a, _ := strconv.ParseFloat(tmp2.Value, 64)
-				b, _ := strconv.ParseFloat(tmp1.Value, 64)
-				fmt.Println("A: ", a, "B: ", b)
+				a, err1 := strconv.ParseFloat(tmp2.Value, 64)
+				if err1 != nil {
+					fmt.Println("ошибка при переводе в float токена a: ", err1)
+				}
+				b, err2 := strconv.ParseFloat(tmp1.Value, 64)
+				if err2 != nil {
+					fmt.Println("ошибка при переводе в float токена b: ", err2)
+				}
 				switch token.Value {
 				case "+":
 					result = a + b
